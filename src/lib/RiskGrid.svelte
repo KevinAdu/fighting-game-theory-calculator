@@ -1,19 +1,13 @@
 <script lang="ts">
-type GridCell = {
-    myOption: string;
-    opponentOption: string;
-    risk: number;
-};
+	import Grid from '../routes/Grid.svelte';
+	import { riskMatrix } from './constants';
+	import { flattenRiskMatrix, generateColumnDefs, transformToRowData } from './helpers';
+	import type { ActionRiskRow } from './types';
 
-export const riskMatrix: GridCell[][] = [
-    [
-      { myOption: "Block", opponentOption: "Throw", risk: 1200 },
-    ],
-    [
-        { myOption: "Delay Throw", opponentOption: "Throw", risk: 0 },
-    ],
-  ];
+	const flatRiskMatrix: ActionRiskRow[] = flattenRiskMatrix(riskMatrix);
+	const rowData = transformToRowData(flatRiskMatrix);
+	const columnDefs = generateColumnDefs(flatRiskMatrix);
 
 </script>
 
-<p>{riskMatrix[0][0].myOption}</p>
+<Grid {columnDefs} {rowData} />
